@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="true" />
+
+	<!-- 配置常量 -->
+	<constant name="author_name" value="zhao"></constant>
+	<!-- 默认拦截的后缀名 -->
+	<constant name="struts.devMode" value="true"></constant>
+	<!-- 允许动态方法调用! -->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+    <!-- 允许静态方法调用 -->
+    <constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+    
+    
+    <package name="default" namespace="/" extends="struts-default">
+    	<interceptors>
+    		<interceptor name="loginInterceptor" class="cn.zhaoyuening.web.interceptor.LoginInterceptor"></interceptor>
+    		<interceptor-stack name="loginCheckStack">
+    			<interceptor-ref name="defaultStack"></interceptor-ref>
+    			<interceptor-ref name="loginInterceptor"></interceptor-ref>
+    		</interceptor-stack>
+    	</interceptors>
+    	<default-interceptor-ref name="loginCheckStack"></default-interceptor-ref>
+    	<default-action-ref name="login.action"></default-action-ref>
+    	
+    	<global-results>
+    		<result name="login">/WEB-INF/content/login.jsp</result>
+    	</global-results>
+    	
+		<action name="login.action" class="cn.zhaoyuening.web.action.LoginAction">
+			<!-- <interceptor-ref name="defaultStack"></interceptor-ref> -->
+			<result name="success">/WEB-INF/content/content.jsp</result>
+		</action>
+		
+		<action name="page_*">
+			<result>/WEB-INF/page/{1}.jsp</result>
+		</action>
+
+    </package>
+    
+    
+</struts>
